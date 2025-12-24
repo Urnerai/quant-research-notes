@@ -21,10 +21,10 @@ Walk-Forward Validation (Expanding Window)
 """
 def main():
     # ---Load Data---
-    price=load_data("tsla.csv")
+    data=load_data("tsla.csv")
 
     # --- Compute Returns ---
-    returns=compute_log_returns(price)
+    returns=compute_log_returns(data["price"])
 
     # --- Create Lagged Features ---
     lags=[1,5]
@@ -42,15 +42,14 @@ def main():
     predictions=[]
     actuals=[]
 
-    for i in range(1, len(X_clean)):
+    for t in range(1, len(X_clean)):
         # Training Data
-        X_train=X_clean.iloc[:i]
-        y_train=y_clean.iloc[:i]
+        X_train=X_clean.iloc[:t]
+        y_train=y_clean.iloc[:t]
 
         # Test Data
-        X_test=X_clean.iloc[i:i+1]
-        y_test=y_clean.iloc[i]
-        
+        X_test=X_clean.iloc[t:t+1]
+        y_test=y_clean.iloc[t]
         model=LinearRegression()
         model.fit(X_train,y_train)
         
